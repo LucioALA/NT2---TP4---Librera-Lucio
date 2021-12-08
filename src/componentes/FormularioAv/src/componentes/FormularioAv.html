@@ -1,0 +1,130 @@
+
+<section class="src-componentes-formulario-av">
+  <div class="jumbotron">
+    <h2>Componente Formulario Avanzado</h2>
+    <hr>
+    <hr>
+    <br>
+
+    <vue-form :state="formState" @submit.prevent="enviar()">
+ 
+      <!-- ------------ -->
+      <!-- Campo nombre -->
+      <!-- ------------ -->
+      <validate tag="div">
+        <label for="nombre">Nombre</label>
+        <input 
+          type="text"
+          id="nombre"
+          v-model.trim="formData.nombre"
+          name="nombre" 
+          class="form-control"
+          autocomplete="off"
+          required 
+          :minlength="nombreMinLength"
+          :maxlength="nombreMaxLength"
+          
+        />
+        <!-- Mensajes de validación del campo nombre -->
+        <field-messages name="nombre" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
+          <div slot="no-espacios" class="alert alert-danger mt-1">
+            No se permiten espacios intermedios en este campo.
+          </div>
+          <div slot="minlength" class="alert alert-danger mt-1">
+            Este campo debe poseer al menos {{ nombreMinLength }} caracteres
+          </div>
+          <div v-if="formData.nombre.length == nombreMaxLength" class="alert alert-danger mt-1">
+            Este campo debe poseer como máximo {{ nombreMaxLength }} caracteres
+          </div>
+        </field-messages>
+      </validate>
+      <br>
+
+      <!-- -------------- -->
+      <!-- Campo apellido -->
+      <!-- -------------- -->
+      <validate tag="div">
+        <label for="apellido">Apellido</label>
+        <input 
+          type="text"
+          id="apellido"
+          v-model.trim="formData.apellido"
+          name="apellido" 
+          class="form-control"
+          autocomplete="off"
+          required 
+        />
+        <!-- Mensajes de validación del campo apellido -->
+        <field-messages name="apellido" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
+        </field-messages>
+      </validate>
+      <br>
+      
+      <!-- -------------- -->
+      <!--   Campo edad   -->
+      <!-- -------------- -->
+      <validate tag="div">
+        <label for="edad">Edad</label>
+        <input 
+          type="number"
+          id="edad"
+          v-model.number="formData.edad"
+          name="edad" 
+          class="form-control"
+          autocomplete="off"
+          required 
+          :min="edadMin"
+          :max="edadMax"
+        />
+        <!-- Mensajes de validación del campo edad -->
+        <field-messages name="edad" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
+          <div slot="min" class="alert alert-danger mt-1">
+            La edad mínima permitida es de {{ edadMin }} años.
+          </div>
+          <div slot="max" class="alert alert-danger mt-1">
+            La edad máxima permitida es de {{ edadMax }} años.
+          </div>
+        </field-messages>
+      </validate>
+      <br>
+      
+      <!-- -------------- -->
+      <!--   Campo email   -->
+      <!-- -------------- -->
+      <validate tag="div">
+        <label for="email">Email</label>
+        <input 
+          type="email"
+          id="email"
+          v-model.number="formData.email"
+          name="email" 
+          class="form-control"
+          autocomplete="off"
+          required 
+        />
+        <!-- Mensajes de validación del campo email -->
+        <field-messages name="email" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
+          <div slot="email" class="alert alert-danger mt-1">Email no válido</div>
+        </field-messages>
+      </validate>
+      <br>
+
+      <button class="btn btn-success my-3" :disabled="formState.$invalid" type="submit">Enviar</button>
+    </vue-form>
+
+    <hr>
+    <p><u>formData</u></p>
+    <pre>{{ formData }}</pre>
+
+
+    <hr>
+    <p><u>formState</u></p>
+    <pre>{{ formState }}</pre>
+
+  </div>
+</section>
+

@@ -1,0 +1,186 @@
+
+<section class="src-componentes-formulario">
+  <div class="jumbotron">
+    <h2>Formulario</h2>
+    <hr>
+    <hr>
+    <br>
+
+    <vue-form :state="formState" @submit.prevent="enviar()">
+ 
+      <!-- ------------ -->
+      <!-- Campo nombre -->
+      <!-- ------------ -->
+      <validate tag="div">
+        <label for="nombre">Nombre</label>
+        <input 
+          type="text"
+          id="nombre"
+          v-model.trim="formData.nombre"
+          name="nombre" 
+          class="form-control"
+          autocomplete="off"
+          required 
+          :minlength="nombreLargoMin"
+          :maxlength="nombreLargoMax"
+          no-espacios
+        />
+        <!-- Mensajes de validación del campo nombre -->
+        <field-messages name="nombre" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
+          <div slot="no-espacios" class="alert alert-danger mt-1">
+            No se permiten espacios intermedios en este campo.
+          </div>
+          <div slot="minlength" class="alert alert-danger mt-1">
+            Este campo debe poseer al menos {{ nombreLargoMin }} caracteres
+          </div>
+          <div v-if="formData.nombre.length == nombreLargoMax " class="alert alert-danger mt-1">
+            Este campo puede poseer como máximo {{ nombreLargoMax }} caracteres
+          </div>
+        </field-messages>
+      </validate>
+      <br>
+
+      <!-- -------------- -->
+      <!-- Campo apellido -->
+      <!-- -------------- -->
+      
+      <!-- -------------- -->
+      <!--   Campo edad   -->
+      <!-- -------------- -->
+      <validate tag="div">
+        <label for="edad">Edad</label>
+        <input 
+          type="number"
+          id="edad"
+          v-model="formData.edad"
+          name="edad" 
+          class="form-control"
+          autocomplete="off"
+          required 
+          :min="edadMin"
+          :max="edadMax"
+        />
+        <!-- Mensajes de validación del campo edad -->
+        <field-messages name="edad" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
+          <div slot="min" class="alert alert-danger mt-1">
+            La edad mínima permitida es de {{ edadMin }} años.
+          </div>
+          <div slot="max" class="alert alert-danger mt-1">
+            La edad máxima permitida es de {{ edadMax }} años.
+          </div>
+        </field-messages>
+      </validate>
+      <br>
+      
+      <!-- -------------- -->
+      <!--   Campo email   -->
+      <!-- -------------- -->
+      <validate tag="div">
+        <label for="email">Email</label>
+        <input 
+          type="email"
+          id="email"
+          v-model.number="formData.email"
+          name="email" 
+          class="form-control"
+          autocomplete="off"
+          required 
+        />
+        <!-- Mensajes de validación del campo email -->
+        <field-messages name="email" show="$dirty">
+          <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
+          <div slot="email" class="alert alert-danger mt-1">Email no válido</div>
+        </field-messages>
+      </validate>
+      <br>
+
+      <button class="btn btn-success my-3" :disabled="formState.$invalid" type="submit" @click="agregar()">Enviar</button>
+    </vue-form>
+    <div v-show="formData.nombre || formData.apellido || formData.edad">
+    <hr>
+    <p><u>formData</u></p>
+    <pre>{{ formData }}</pre>
+    </div>
+
+    <hr>
+  
+    
+    <div v-if="!usuariosIngresados.length" class="table-responsive">
+      <h1>No hay usuarios</h1>
+    </div>
+    <div v-else>
+      
+      
+      <table class="table table-dark table-hover">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Email</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(usuario, index) in usuariosIngresados" :key="index">
+            <th scope="col"></th>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.edad }}</td>
+            <td>{{ usuario.email }}</td>
+            <th scope="col"></th>
+
+            
+          </tr>
+          
+          
+          
+          
+        </tbody>
+        
+          
+      </table>
+      
+    </div>
+    <button class="btn btn-success mr-3" @click="getUsuariosAxios()">GET AXIOS</button>
+    <button class="btn btn-success mr-3" @click="getUsuariosFetch()">GET FETCH</button>
+    <div v-if="!usuarios.length" class="table-responsive">
+      <h1>No hay usuarios</h1>
+    </div>
+    <div v-else>
+      
+      
+      <table class="table table-dark table-hover">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Email</th>
+            <th scope="col">Telefono</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(usuario, index) in usuarios" :key="index">
+            <th scope="col"></th>
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.email }}</td>
+            <td>{{ usuario.tel }}</td>
+            <th scope="col"></th>
+
+            
+          </tr>
+          
+          
+          
+          
+        </tbody>
+        
+          
+      </table>
+      
+    </div>
+  </div>
+</section>
+
